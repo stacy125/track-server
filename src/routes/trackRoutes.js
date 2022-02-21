@@ -5,15 +5,15 @@ const requireAuth = require('../middlewares/requireAuth');
 const Track = mongoose.model('Track');
 
 const router = express.Router();
-
+//make sure user is signed in
 router.use(requireAuth);
-
+// request all the tracks by using user._id and send back tracks
 router.get('/tracks', async (req, res) => {
     const tracks = await Track.find({ userId: req.user._id });
 
     res.send(tracks);
 });
-
+//post a track by inputing a name, location and user._id
 router.post('/tracks', async (req, res) => {
     const { name, locations } = req.body;
 

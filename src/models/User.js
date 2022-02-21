@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcrypt');
 
+
 const userSchema = new mongoose.Schema({
     email: {
         type: String,
@@ -13,6 +14,7 @@ const userSchema = new mongoose.Schema({
     }
 });
 
+// before being saved the password is changed using bcrypt to change into a hash for security.  function is used to make use of !this!
 userSchema.pre('save', function (next) {
     const user = this;
     if (!user.isModified('password')) {
@@ -23,7 +25,7 @@ userSchema.pre('save', function (next) {
         if (err) {
             return next(err);
         }
-
+//takes password, salt(random sequence) and turns into a hash
         bcrypt.hash(user.password, salt, (err, hash) => {
             if (err) {
                 return next(err);
@@ -34,6 +36,7 @@ userSchema.pre('save', function (next) {
     });
 });
 
+//compares password
 userSchema.methods.comparePassword = function (candidatePassword) {
     const user = this;
 

@@ -4,7 +4,7 @@ const jwt = require('jsonwebtoken');
 const User = mongoose.model('User');
 
 const router = express.Router();
-
+// takes inserted email and password to create a user then with the user._id creates a token
 router.post('/signup', async (req, res) => {
     const { email, password } = req.body;
 
@@ -18,7 +18,7 @@ router.post('/signup', async (req, res) => {
         return res.status(422).send(err.message);
     }
 });
-
+// takes email and password searches database if there is a match you are logged in.
 router.post('/signin', async (req, res) => {
     const { email, password } = req.body;
 
